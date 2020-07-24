@@ -64,14 +64,14 @@ Compile.prototype.compile = function (documentFragment) {
         if (this.isElementNode(node)) {
             // 元素节点
             this.compileElement(node);
+            
+            // 递归遍历所有子节点
+            if (node.childNodes && node.childNodes.length) {
+                this.compile(node);
+            }
         } else {
             // 文本节点
             this.compileText(node);
-        }
-
-        // 递归遍历所有子节点
-        if (node.childNodes && node.childNodes.length) {
-            this.compile(node);
         }
     });
 }
@@ -289,17 +289,17 @@ function MyVue(options) {
  * 建立数据代理，将this.$data.xxx代理为this.xxx，方便调用
  * @param vm Vue实例
  */
-MyVue.prototype.proxyData = function(vm) {
+MyVue.prototype.proxyData = function (vm) {
     var data = vm.$data;
-    Object.keys(data).forEach(function(key) {
+    Object.keys(data).forEach(function (key) {
         // 访问vm.xxx的时候重定向到vm.$data.xxx
         Object.defineProperty(vm, key, {
-            set: function(newValue) {
+            set: function (newValue) {
                 data[key] = newValue;
             },
-            get: function() {
+            get: function () {
                 return data[key];
             }
         });
-    }); 
+    });
 }

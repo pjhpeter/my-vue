@@ -194,6 +194,7 @@ var CompileUtils = {
         });
 
         // 视图>数据
+        // 给元素添加input事件监听，实现视图改变数据
         documentFragment.addEventListener("input", function (event) {
             _this.setValue(vm, text, event.target.value);
         });
@@ -224,16 +225,19 @@ var CompileUtils = {
         }, vm.$data);
     },
     /**
-     * 讲输入框的值更新到vm.$data中
+     * 将输入框的值更新到vm.$data中
      * @param vm Vue实例
      * @param text 插值表达式
      * @param inputValue 输入的值
      */
     setValue: function (vm, text, inputValue) {
+        // 逐层遍历data
         text.split(".").reduce(function (data, key) {
             if (typeof data[key] !== "object") {
+                // 如果data[key]不是对象，直接改变data[key]的值
                 data[key] = inputValue;
             } else {
+                // 如果data[key]是对象，继续遍历下一层
                 return data[key];
             }
         }, vm.$data);
@@ -256,6 +260,7 @@ var CompileUtils = {
         var _this = this;
         return text.replace(/\{\{(.+?)\}\}/g, function (...agrs) {
             if (requiredWatcher) {
+                // 为给个插值表达式对应的属性创建订阅者
                 new Watcher(vm, agrs[1], function () {
                     documentFragment.textContent = _this.getIterpolutionText(vm, documentFragment, text, false);
                 });

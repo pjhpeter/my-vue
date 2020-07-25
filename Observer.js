@@ -8,6 +8,7 @@ function Watcher(vm, text, callback) {
     this.vm = vm;
     this.text = text;
     this.callback = callback;
+    // 获取当前值作为旧值，用于更新时与新值做比较
     this.oldValue = this.get();
 }
 
@@ -61,7 +62,7 @@ Dep.prototype.depend = function(watcher) {
 }
 
 /**
- * 数据发生变化时，唤醒所有关联的监听器，更新视图
+ * 数据发生变化时，唤醒所有关联的订阅者，更新视图
  */
 Dep.prototype.notify = function() {
     this.subscribers.forEach(watcher => {
@@ -114,7 +115,7 @@ Observer.prototype.defineReactive = function (data, key, value) {
             }
         },
         get: function () {
-            // 初始化的时候就会触发
+            // Watcher实例化的时候就会触发
             // 所以在这里添加依赖，绑定dep和watcher
             if(Dep.target) {
                 dep.depend(Dep.target);

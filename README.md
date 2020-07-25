@@ -12,7 +12,7 @@ MVVM是Model-View-ViewModel的简写。它本质上就是MVC 的改进版。MVVM
 
 ## Vue的MVVM实现流程
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0724/151411_b71f0059_5449551.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0725/150332_f0d0d8b0_5449551.png "屏幕截图.png")
 
 大概解释一下，Vue的MVVM实现是通过数据劫持配合发布者-订阅者模式完成的。首先是**new Vue**实例化一个Vue对象作为入口，new Vue的时候会创建**Observer**对象和**Compile**对象。
 
@@ -853,7 +853,7 @@ Watcher对象需要保存一个旧值，用于在数据变化的时候对比新�
 
 ### 建立消息发布和订阅机制
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0724/151411_b71f0059_5449551.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0725/150332_f0d0d8b0_5449551.png "屏幕截图.png")
 
 首先我们通过流程图看到Observer劫持数据后，会监听数据变化，然后通知Dep，而当页面渲染的时候，Complie会从data中读取值渲染到页面中，这个时候Observer会监听到data的相关属性的getter方法被调用，所以这是Dep收集属性依赖的最好时机，因此我们在每个属性的getter方法中为这个属性添加订阅者Watcher。
 
